@@ -176,7 +176,7 @@ def build_dashboard_html() -> str:
     runtime_assets = f"""
 <script>
 window.PATIENT_ANALYTICS_CSV_URL =
-    "/app/static/healthcare_pharma.csv";
+    "/static/healthcare_pharma.csv";
 </script>
 
 <script>
