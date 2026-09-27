@@ -772,7 +772,7 @@
 
 	async function initializeDashboard() {
 		const errorMessage = document.querySelector("#data-load-error");
-		const sourceUrl = window.PATIENT_ANALYTICS_CSV_URL || new URL("../static/healthcare_pharma.csv", document.baseURI).href;
+		const sourceUrl = window.PATIENT_ANALYTICS_CSV_URL || new URL("app/static/healthcare_pharma.csv", document.baseURI).href;
 		bindFilterControls();
 
 		try {
