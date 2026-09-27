@@ -1,5 +1,4 @@
 # Never commit the source CSV with direct identifiers.
-Data/healthcare_pharma.csv
 
 # Local Python environments and caches.
 .venv/
