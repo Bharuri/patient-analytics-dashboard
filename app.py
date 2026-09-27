@@ -242,6 +242,10 @@ if validation_error:
 
 dashboard_html = build_dashboard_html()
 
+st.success("Streamlit application started successfully")
+st.write("CSV rows:", row_count)
+st.write("Dashboard HTML size:", len(dashboard_html))
+
 st.iframe(
     dashboard_html,
     height=3600,
