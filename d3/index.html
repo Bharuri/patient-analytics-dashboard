@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Patient admissions and healthcare analytics dashboard">
+    <title>Patient Analytics Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v7.min.js" defer></script>
+    <script src="data.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="dashboard">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Healthcare analytics</p>
+          <h1>Patient Analytics Dashboard</h1>
+          <p class="page-intro">Explore admissions, care delivery, patient demographics, and financial performance.</p>
+        </div>
+      </header>
+
+      <p id="data-load-error" class="data-load-error" role="alert" hidden></p>
+
+      <section class="filter-panel" aria-labelledby="filters-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Dashboard controls</p>
+            <h2 id="filters-heading">Filters</h2>
+          </div>
+          <button class="reset-button" type="button">Reset filters</button>
+        </div>
+        <div class="filter-grid">
+          <label class="filter-control">
+            <span>Department</span>
+            <select name="department" aria-label="Filter by department">
+              <option value="">All departments</option>
+            </select>
+          </label>
+          <label class="filter-control">
+            <span>Gender</span>
+            <select name="gender" aria-label="Filter by gender">
+              <option value="">All genders</option>
+            </select>
+          </label>
+          <label class="filter-control">
+            <span>Admission date from</span>
+            <input type="date" name="start-date" aria-label="Admission date from">
+          </label>
+          <label class="filter-control">
+            <span>Admission date to</span>
+            <input type="date" name="end-date" aria-label="Admission date to">
+          </label>
+          <label class="filter-control">
+            <span>Insurance provider</span>
+            <select name="insurance-provider" aria-label="Filter by insurance provider">
+              <option value="">All providers</option>
+            </select>
+          </label>
+          <label class="filter-control">
+            <span>Time breakdown</span>
+            <select name="time-granularity" aria-label="Time breakdown">
+              <option value="month">Month</option>
+              <option value="quarter">Quarter</option>
+              <option value="year">Year</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <p id="dashboard-empty-state" class="dashboard-empty-state" role="status" hidden></p>
+
+      <section class="kpi-section" aria-labelledby="kpi-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">At a glance</p>
+            <h2 id="kpi-heading">Key indicators</h2>
+          </div>
+        </div>
+        <div class="kpi-grid">
+          <article class="kpi-card"><h3>Total patients</h3><p class="kpi-value" data-kpi="total-patients">—</p></article>
+          <article class="kpi-card"><h3>Total admissions</h3><p class="kpi-value" data-kpi="total-admissions">—</p></article>
+          <article class="kpi-card"><h3>Average length of stay</h3><p class="kpi-value" data-kpi="average-length-of-stay">—</p></article>
+          <article class="kpi-card"><h3>Readmission rate</h3><p class="kpi-value" data-kpi="readmission-rate">—</p></article>
+          <article class="kpi-card"><h3>Average satisfaction score</h3><p class="kpi-value" data-kpi="average-satisfaction-score">—</p></article>
+          <article class="kpi-card"><h3>Total charges</h3><p class="kpi-value" data-kpi="total-charges">—</p></article>
+        </div>
+      </section>
+
+      <section class="analysis-section" aria-labelledby="analysis-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Explore the data</p>
+            <h2 id="analysis-heading">Analytics</h2>
+          </div>
+        </div>
+        <div class="chart-grid">
+          <article class="chart-panel"><h3>Patients by department</h3><div id="patients-by-department-chart" class="chart-slot" aria-label="Patients by department chart area"></div></article>
+          <article class="chart-panel"><h3>Average length of stay by department</h3><div id="average-length-of-stay-by-department-chart" class="chart-slot" aria-label="Average length of stay by department chart area"></div></article>
+          <article class="chart-panel"><h3>Average charges by department</h3><div id="average-charges-by-department-chart" class="chart-slot" aria-label="Average charges by department chart area"></div></article>
+          <article class="chart-panel chart-panel--wide"><h3>Admissions over time</h3><div id="admissions-over-time-chart" class="chart-slot" aria-label="Admissions over time chart area"></div></article>
+          <article class="chart-panel"><h3>Top 10 primary diagnoses</h3><div id="top-diagnoses-chart" class="chart-slot" aria-label="Top diagnoses chart area"></div></article>
+          <article class="chart-panel"><h3>Age distribution</h3><div id="age-distribution-chart" class="chart-slot" aria-label="Age distribution chart area"></div></article>
+          <article class="chart-panel"><h3>Gender distribution</h3><div id="gender-distribution-chart" class="chart-slot" aria-label="Gender distribution chart area"></div></article>
+          <article class="chart-panel"><h3>Blood type distribution</h3><div id="blood-type-distribution-chart" class="chart-slot" aria-label="Blood type distribution chart area"></div></article>
+          <article class="chart-panel"><h3>Total charges by department</h3><div id="total-charges-by-department-chart" class="chart-slot" aria-label="Total charges by department chart area"></div></article>
+          <article class="chart-panel"><h3>Average insurance coverage</h3><div id="insurance-coverage-summary" class="chart-slot insurance-coverage-summary" aria-label="Average insurance coverage percentage across filtered admissions"><p id="insurance-coverage-value" class="financial-summary-value">—</p><p id="insurance-coverage-caption" class="financial-summary-caption">Across filtered admissions</p></div></article>
+          <article class="chart-panel"><h3>Payment status</h3><div id="payment-status-chart" class="chart-slot" aria-label="Payment status distribution chart area"></div></article>
+        </div>
+      </section>
+    </main>
+    <div id="chart-tooltip" class="chart-tooltip" role="tooltip" aria-hidden="true" hidden></div>
+  </body>
+</html>
